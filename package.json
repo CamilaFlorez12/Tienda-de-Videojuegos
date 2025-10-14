@@ -16,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/CamilaFlorez12/Tienda-de-Videojuegos/issues"
   },
-  "homepage": "https://github.com/CamilaFlorez12/Tienda-de-Videojuegos#readme"
+  "homepage": "https://github.com/CamilaFlorez12/Tienda-de-Videojuegos#readme",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "mongodb": "^6.20.0"
+  }
 }
