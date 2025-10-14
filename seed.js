@@ -11,8 +11,8 @@ async function seed() {
             tipo: "juego",
             precio: 20000,
             cantidad: 50,
-            fecha: new Date("2025-10-13"),
-            proveedor: "Electronic arts "
+            proveedor: "Electronic arts ",
+            fecha: new Date("2025-10-13")
         },
         {
             _id: new ObjectId("68ed80366aae2d93bdc5f52f"),
@@ -20,8 +20,8 @@ async function seed() {
             tipo: "consola",
             precio: 2800000,
             cantidad: 15,
-            fecha: new Date("2025-10-13"),
-            proveedor: "Sony Interactive Entertainment"
+            proveedor: "Sony Interactive Entertainment",
+            fecha: new Date("2025-10-13")
         },
         {
             _id: new ObjectId("68ed80366aae2d93bdc5f530"),
@@ -29,8 +29,8 @@ async function seed() {
             tipo: "juego",
             precio: 250000,
             cantidad: 30,
-            fecha: new Date("2025-10-13"),
-            proveedor: "Nintendo"
+            proveedor: "Nintendo",
+            fecha: new Date("2025-10-13")
         }
     ];
 
@@ -41,7 +41,7 @@ async function seed() {
         {
             _id: new ObjectId("68ed80366aae2d93bdc5f531"),
             fecha: ISODate("2025-10-13T15:00:00Z"),
-            cliente_id: new ObjectId("68ed80366aae2d93bdc5f540"),
+            cliente_id: new ObjectId("652a4c7e12f0a7c2d1b7f1a1"),
             productos: [
                 {
                     videojuego_id: new ObjectId("68ed80366aae2d93bdc5f52e"),
@@ -62,7 +62,7 @@ async function seed() {
         }, {
             _id: new ObjectId("68ed80366aae2d93bdc5f532"),
             fecha: ISODate("2025-10-13T16:30:00Z"),
-            cliente_id: new ObjectId("68ed80366aae2d93bdc5f541"),
+            cliente_id: new ObjectId("652a4c8b52f7d8b2d2c3e2b2"),
             productos: [
                 {
                     videojuego_id: new ObjectId("68ed80366aae2d93bdc5f52f"),
@@ -76,7 +76,7 @@ async function seed() {
         }, {
             _id: new ObjectId("68ed80366aae2d93bdc5f533"),
             fecha: ISODate("2025-10-13T18:45:00Z"),
-            cliente_id: new ObjectId("68ed80366aae2d93bdc5f542"),
+            cliente_id: new ObjectId("652a4c9618e5a6a3f3d4f3c3"),
             productos: [
                 {
                     videojuego_id: new ObjectId("68ed80366aae2d93bdc5f530"),
@@ -102,5 +102,34 @@ async function seed() {
     await obtenerDB().collection("ventas").insertMany(ventas);
 
 }
+
+const clientes = [
+    {
+        _id: ObjectId("652a4c7e12f0a7c2d1b7f1a1"),
+        nombre: "Carlos",
+        correo: "carlos.mendez@gmail.com"
+    },
+    {
+        _id: ObjectId("652a4c8b52f7d8b2d2c3e2b2"),
+        nombre: "María",
+        correo: "maria.garcia@gmail.com"
+    },
+    {
+        _id: ObjectId("652a4c9618e5a6a3f3d4f3c3"),
+        nombre: "Jorge",
+        correo: "jorge.luna@gmail.com"
+    },
+    {
+        _id: ObjectId("652a4ca3fae6b7d4a4e5g4d4"),
+        nombre: "Sofía",
+        correo: "sofia.ramos@gmail.com"
+    },
+    {
+        _id: ObjectId("652a4cb0cde7c8e5b5f6h5e5"),
+        nombre: "Andrés",
+        correo: "andres.perez@gmail.com"
+    }
+    
+]
 
 seed();
