@@ -3,7 +3,7 @@ import {
     listarClientes,
     actualizarCliente,
     eliminarCliente
-} from "./clientes.services";
+} from "../services/clientes.services";
 
 export async function registroCliente(req, res, next) {
     try {

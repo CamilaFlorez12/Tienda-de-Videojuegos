@@ -1,5 +1,5 @@
 import {Router} from express;
-import { registrarVentaDTO } from "./ventasDTO.js";
+import { registrarVentaDTO } from "../dtos/ventasDTO.js";
 import { registroVenta, verVentas,verVentaId} from "./ventas.controllers";
 
 import { validationRequest } from "../middlewares/validatorDTO.js";

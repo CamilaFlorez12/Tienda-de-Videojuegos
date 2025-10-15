@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { registrarClientesDTO,actualizarCLientesDTO } from "./clientesDTO.js";
+import { registrarClientesDTO,actualizarCLientesDTO } from "../dtos/clientesDTO.js";
 import { registroCliente, verClientes,actualizacioncliente,eliminacionCliete} from "./clientes.controllers.js";
 import { validationRequest } from "../middlewares/validatorDTO.js";
 
