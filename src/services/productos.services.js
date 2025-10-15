@@ -1,11 +1,11 @@
-import { obtenerDB } from "./db";
+import { obtenerDB } from "../config/db";
 import { objectId } from "mongodb";
 
 const COLECCION_PRODUCTOS = "productos";
 
 export async function registrarVideoJuego(datos) {
-    const { nombre, tipo, precio, cantidad, proveedor } = datos;
-    if (!nombre || !tipo || !precio || !cantidad || proveedor) {
+    const { nombre, tipo, precio, stock, proveedor } = datos;
+    if (!nombre || !tipo || !precio || !stock || proveedor) {
         throw new Error("Falta algún campo");
     }
 
@@ -13,15 +13,15 @@ export async function registrarVideoJuego(datos) {
         throw new Error("El precio no puede ser cero o negativo")
     }
     
-    const producto = {
+    const videoJuego = {
         nombre,
         tipo,
         precio,
-        cantidad,
+        stock,
         proveedor,
         fecha : new Date()
     }
-    await obtenerDB().collection(COLECCION_PRODUCTOS).insertOne(producto);
+    await obtenerDB().collection(COLECCION_PRODUCTOS).insertOne(videoJuego);
     return {message:"Nuevo juego insertado"}
 }
 
@@ -43,13 +43,12 @@ export async function consultarVideoJuego(id) {
 }
 
 export async function actualizarVideoJuego(id,datosActualizados) {
-    const videoJuego = await obtenerDB().collection(COLECCION_PRODUCTOS).updateOne({_id:new objectId(id)},{$set:{datosActualizados}})  
+    const resultado = await obtenerDB().collection(COLECCION_PRODUCTOS).updateOne({_id:new objectId(id)},{$set:{datosActualizados}});
+    return resultado.matchedCoun > 0;
 }
 
-
-
-export async function editarTituloReceta(id, titulo) {
-    const resultado = await obtenerDB().collection(COLECCION_RECETA).updateOne({ _id: new ObjectId(id) }, { $set: { titulo } });
-    if (resultado.matchedCount === 0) throw new Error("Receta no encontrada");
-    return { message: "Titulo de la receta modificado" };
+export async function eliminarvideoJuego(id) {
+    const resultado = await obtenerDB().collection(COLECCION_PRODUCTOS).deleteOne({_id:new objectId(id)});
+    return resultado.deleteCount > 0
+    
 }
