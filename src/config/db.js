@@ -21,3 +21,7 @@ export function obtenerDB(){
     if(!db) throw new Error("No se ha conectado la DB");
     return db;
 }
+
+export function obtenerCliente(){
+    return cliente;
+}
