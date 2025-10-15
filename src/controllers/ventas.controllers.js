@@ -2,7 +2,7 @@ import {
     registrarVentas,
     listarVentas,
     consultarVenta
-} from "../services/ventas.services";
+} from "../services/ventas.services.js";
 
 export async function registroVenta(req, res, next) {
     try {

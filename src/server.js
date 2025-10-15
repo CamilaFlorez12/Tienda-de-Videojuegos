@@ -3,6 +3,8 @@ import 'dotenv/config';
 import cors from "cors";
 import { conectarDB } from "./config/db.js";
 import productosRoutes from "./routers/productos.router.js";
+import clientesRoutes from "./routers/clientes.router.js";
+import ventasRoutes from "./routers/ventas.router.js";
 
 const app = express();
 const port = process.env.PORT;
@@ -17,6 +19,8 @@ app.use(cors({
 }));
 
 app.use("/videojuegos",productosRoutes);
+app.use("/clientes",clientesRoutes);
+app.use("/ventas",ventasRoutes);
 
 app.use("/health",(req, res)=>{
     res.json({message:"OK"})
