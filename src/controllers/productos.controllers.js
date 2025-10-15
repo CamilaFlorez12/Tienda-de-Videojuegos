@@ -3,9 +3,9 @@ import {
     listarVideoJuegos,
     consultarVideoJuego,
     actualizarVideoJuego,
-    eliminarvideoJuego
+    eliminarVideoJuego
 }
-    from "../services/productos.services";
+    from "../services/productos.services.js";
 
 export async function registroVideoJuego(req, res, next) {
     try {
@@ -47,7 +47,7 @@ export async function actualizacionVideoJuego(req, res, next) {
 
 export async function eliminacionVideoJuego(req, res, next) {
     try {
-        const videoJuegoEliminado = await eliminarvideoJuego(req.params.id);
+        const videoJuegoEliminado = await eliminarVideoJuego(req.params.id);
         if (!videoJuegoEliminado) return res.status(404).json({ error: "Video juego no encontrado" });
         res.status(200).json(videoJuegoEliminado);
     } catch (error) {

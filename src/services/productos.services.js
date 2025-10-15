@@ -1,11 +1,11 @@
-import { obtenerDB } from "../config/db";
-import { objectId } from "mongodb";
+import { obtenerDB } from "../config/db.js";
+import { ObjectId } from "mongodb";
 
 const COLECCION_PRODUCTOS = "productos";
 
 export async function registrarVideoJuego(datos) {
     const { nombre, tipo, precio, stock, proveedor } = datos;
-    if (!nombre || !tipo || !precio || !stock || proveedor) {
+    if (!nombre || !tipo || !precio || !stock || !proveedor) {
         throw new Error("Falta algún campo");
     }
 
@@ -31,11 +31,11 @@ export async function listarVideoJuegos() {
 }
 
 export async function consultarVideoJuego(id) {
-    if(!objectId.isValid(id)){
+    if(!ObjectId.isValid(id)){
         throw new Error("ID de video juego no válido");
     }
 
-    const videoJuego = await obtenerDB().collection(COLECCION_PRODUCTOS).findone({_id:new objectId(id)});
+    const videoJuego = await obtenerDB().collection(COLECCION_PRODUCTOS).findOne({_id:new ObjectId(id)});
 
     if(!videoJuego) throw new Error("Video juego no encontrado");
 
@@ -43,12 +43,12 @@ export async function consultarVideoJuego(id) {
 }
 
 export async function actualizarVideoJuego(id,datosActualizados) {
-    const resultado = await obtenerDB().collection(COLECCION_PRODUCTOS).updateOne({_id:new objectId(id)},{$set:{datosActualizados}});
-    return resultado.matchedCoun > 0;
+    const resultado = await obtenerDB().collection(COLECCION_PRODUCTOS).updateOne({_id:new ObjectId(id)},{$set:datosActualizados});
+    return resultado.matchedCount > 0;
 }
 
-export async function eliminarvideoJuego(id) {
-    const resultado = await obtenerDB().collection(COLECCION_PRODUCTOS).deleteOne({_id:new objectId(id)});
-    return resultado.deleteCount > 0
+export async function eliminarVideoJuego(id) {
+    const resultado = await obtenerDB().collection(COLECCION_PRODUCTOS).deleteOne({_id:new ObjectId(id)});
+    return resultado.deletedCount > 0
     
 }

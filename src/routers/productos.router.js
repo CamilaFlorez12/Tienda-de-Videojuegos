@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { registrarVideoJuegosDTO,actualizarVideoJuegosDTO } from "../dtos/productosDTO";
-import { registroVideoJuego,verVideoJuegos,verVideoJuegoId,actualizacionVideoJuego,eliminacionVideoJuego } from "../controllers/productos.controllers";
+import { registrarVideoJuegosDTO,actualizarVideoJuegosDTO } from "../dtos/productosDTO.js";
+import { registroVideoJuego,verVideoJuegos,verVideoJuegoId,actualizacionVideoJuego,eliminacionVideoJuego } from "../controllers/productos.controllers.js";
 
-import { validationRequest } from "../middlewares/validatorDTO";
+import { validationRequest } from "../middlewares/validatorDTO.js";
 
 const router = Router();
 

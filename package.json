@@ -15,6 +15,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/CamilaFlorez12/Tienda-de-Videojuegos/issues"
   },
