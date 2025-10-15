@@ -5,7 +5,10 @@ const COLECCION_VENTAS = "ventas";
 const COLECCION_PRODUCTOS = "productos"
 
 export async function registrarVentas(datos) {
+    const client = obtenerCliente();
+    const session = client.startSession();
     try {
+        const db = obtenerDB();
         const { cliente_id, productos = [], fecha = new Date() } = datos;
 
         if (!cliente_id || productos.length === 0) {
@@ -39,11 +42,11 @@ export async function registrarVentas(datos) {
             productos: productosProcesados,
             total
         };
-        await session.withTrasaction(async () => {
-            await obtenerDB().collection(COLECCION_VENTAS).insertOne(nuevaVenta, { session });
+        await session.withTransaction(async () => {
+            await db.collection("ventas").insertOne(nuevaVenta, { session });
 
             for (const producto of productosProcesados) {
-                const resultado = await obtenerDB().collection(COLECCION_PRODUCTOS).updateOne(
+                const resultado = await db.collection("productos").updateOne(
                     { _id: producto.videojuego_id },
                     { $inc: { stock: -producto.cantidad } },
                     { session }
