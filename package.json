@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "seed": "node src/seed.js"
   },
   "repository": {
     "type": "git",
@@ -18,8 +20,11 @@
   },
   "homepage": "https://github.com/CamilaFlorez12/Tienda-de-Videojuegos#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
-    "mongodb": "^6.20.0"
+    "express-validator": "^7.2.1",
+    "mongodb": "^6.20.0",
+    "swagger": "^0.7.5"
   }
 }
