@@ -2,71 +2,56 @@ import { obtenerDB } from "../config/db.js";
 import { ObjectId } from "mongodb";
 
 const COLECCION_VENTAS = "ventas";
-const COLECCION_PRODUCTOS = "productos"
 
 export async function registrarVentas(datos) {
-    const client = obtenerCliente();
-    const session = client.startSession();
-    try {
-        const db = obtenerDB();
-        const { cliente_id, productos = [], fecha = new Date() } = datos;
+    const db = obtenerDB();
+    const { cliente_id, productos = [], fecha = new Date() } = datos;
 
-        if (!cliente_id || productos.length === 0) {
-            throw new Error("Faltan datos obligatorios: cliente_id o productos");
+    if (!cliente_id || productos.length === 0) {
+        throw new Error("Faltan datos obligatorios: cliente_id o productos");
+    }
+
+    const productosProcesados = productos.map(producto => {
+        const { videojuego_id, nombre, cantidad, precio_unitario } = producto;
+
+        if (!videojuego_id || !nombre || !cantidad || !precio_unitario) {
+            throw new Error("Faltan datos en un producto");
         }
 
+        const subtotal = cantidad * precio_unitario;
 
-        const productosProcesados = productos.map(producto => {
-            const { videojuego_id, nombre, cantidad, precio_unitario } = producto;
-
-            if (!videojuego_id || !nombre || !cantidad || !precio_unitario) {
-                throw new Error("Faltan datos en un producto");
-            }
-
-            const subtotal = cantidad * precio_unitario;
-
-            return {
-                videojuego_id: new ObjectId(videojuego_id),
-                nombre,
-                cantidad,
-                precio_unitario,
-                subtotal
-            };
-        });
-
-        const total = productosProcesados.reduce((sum, p) => sum + p.subtotal, 0);
-
-        const nuevaVenta = {
-            fecha: new Date(fecha),
-            cliente_id: new ObjectId(cliente_id),
-            productos: productosProcesados,
-            total
+        return {
+            videojuego_id: new ObjectId(videojuego_id),
+            nombre,
+            cantidad,
+            precio_unitario,
+            subtotal
         };
-        await session.withTransaction(async () => {
-            await db.collection("ventas").insertOne(nuevaVenta, { session });
+    });
 
-            for (const producto of productosProcesados) {
-                const resultado = await db.collection("productos").updateOne(
-                    { _id: producto.videojuego_id },
-                    { $inc: { stock: -producto.cantidad } },
-                    { session }
-                );
+    const total = productosProcesados.reduce((sum, p) => sum + p.subtotal, 0);
 
-                if (resultado.matchedCount === 0) {
-                    throw new Error(`Producto no encontrado: ${producto.nombre}`);
-                }
-                if (resultado.modifiedCount === 0) {
-                    throw new Error(`No se pudo actualizar stock para: ${producto.nombre}`);
-                }
-            }
-        });
-        return { message: "Venta creada y stock actualizado" }
-    } catch (error) {
-        console.error("Error en registrarVentas:", error.message);
-        throw new Error("Error al registrar la venta: " + error.message);
-    } finally {
-        await session.endSession();
+    const nuevaVenta = {
+        fecha: new Date(fecha),
+        cliente_id: new ObjectId(cliente_id),
+        productos: productosProcesados,
+        total
+    };
+
+    await db.collection("ventas").insertOne(nuevaVenta);
+
+    for (const producto of productosProcesados) {
+        const resultado = await db.collection("productos").updateOne(
+            { _id: producto.videojuego_id },
+            { $inc: { stock: -producto.cantidad } }
+        );
+
+        if (resultado.matchedCount === 0) {
+            throw new Error(`Producto no encontrado: ${producto.nombre}`);
+        }
     }
+
+    return { message: "Venta creada y stock actualizado" };
 }
 
 export async function listarVentas() {

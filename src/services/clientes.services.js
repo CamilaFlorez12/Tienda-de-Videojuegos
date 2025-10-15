@@ -5,7 +5,7 @@ const COLECCION_CLIENTES = "clientes";
 
 export async function registrarCliente(datos) {
     const {nombre,correo} = datos;
-    if(!nombre || correo){
+    if(!nombre || !correo){
         throw new Error("Falta algún campo");
     }
 
