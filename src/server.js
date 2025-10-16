@@ -12,7 +12,7 @@ app.use(express.json());
 
 
 app.use(cors({
-    origin: process.env.FRONTEND_URL,
+    origin:["https://ValentinaDelgadoRincon/Frontend_inventario","http://localhost:4000"],
     methods:["GET","POST","PATCH","DELETE"],
     allowedHeaders:["Content-Type"],
     credentials:false
@@ -28,6 +28,6 @@ app.use("/health",(req, res)=>{
 
 conectarDB().then(()=>{
     app.listen(port ,()=>{
-        console.log(`API escuachada en://localhost:${port}`)
+        console.log(`API escuchada en://localhost:${port}`)
     })
 })
