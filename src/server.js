@@ -12,7 +12,7 @@ app.use(express.json());
 
 
 app.use(cors({
-    origin:["https://ValentinaDelgadoRincon/Frontend_inventario","http://localhost:4000"],
+    origin: process.env.FRONTEND_URL,
     methods:["GET","POST","PATCH","DELETE"],
     allowedHeaders:["Content-Type"],
     credentials:false
