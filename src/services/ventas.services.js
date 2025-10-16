@@ -1,5 +1,5 @@
-import { obtenerDB,obtenerCliente } from "../config/db.js";
-import { ObjectId} from "mongodb";
+import { obtenerDB, obtenerCliente } from "../config/db.js";
+import { ObjectId } from "mongodb";
 
 const COLECCION_VENTAS = "ventas";
 const COLECCION_PRODUCTOS = "productos"
@@ -47,15 +47,25 @@ export async function registrarVentas(datos) {
         await db.collection(COLECCION_VENTAS).insertOne(nuevaVenta, { session });
 
         for (const producto of productosProcesados) {
+
+            const productoEnDB = await db.collection(COLECCION_PRODUCTOS).findOne(
+                { _id: producto.videojuego_id },
+                { session }
+            );
+
+            if (!productoEnDB) {
+                throw new Error(`Producto no encontrado: ${producto.nombre}`);
+            }
+
+            if (productoEnDB.stock < producto.cantidad) {
+                throw new Error(`Stock insuficiente para ${producto.nombre}. Disponible: ${productoEnDB.stock}`);
+            }
             const resultado = await db.collection(COLECCION_PRODUCTOS).updateOne(
                 { _id: producto.videojuego_id },
                 { $inc: { stock: -producto.cantidad } },
                 { session }
             );
 
-            if (resultado.matchedCount === 0) {
-                throw new Error(`Producto no encontrado: ${producto.nombre}`);
-            }
             if (resultado.modifiedCount === 0) {
                 throw new Error(`No se pudo actualizar stock para: ${producto.nombre}`);
             }
