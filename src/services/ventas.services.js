@@ -9,9 +9,9 @@ export async function registrarVentas(datos) {
     const session = client.startSession();
     try {
         const db = obtenerDB();
-        const { cliente_id, productos = [], fecha = new Date() } = datos;
+        const {productos = [], fecha = new Date() } = datos;
 
-        if (!cliente_id || productos.length === 0) {
+        if (! productos.length === 0) {
             throw new Error("Faltan datos obligatorios: cliente_id o productos");
         }
 
@@ -62,7 +62,7 @@ export async function registrarVentas(datos) {
             }
             const resultado = await db.collection(COLECCION_PRODUCTOS).updateOne(
                 { _id: producto.videojuego_id },
-                { $inc: { stock: -producto.cantidad } },
+                { $inc: { stock: +producto.cantidad } },
                 { session }
             );
 
