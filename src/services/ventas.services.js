@@ -11,9 +11,10 @@ export async function registrarVentas(datos) {
         const db = obtenerDB();
         const {productos = [], fecha = new Date() } = datos;
 
-        if (! productos.length === 0) {
-            throw new Error("Faltan datos obligatorios: cliente_id o productos");
+        if (!productos || productos.length === 0) {
+            throw new Error("Faltan datos obligatorios");
         }
+        
 
         await session.startTransaction();
 
@@ -39,7 +40,6 @@ export async function registrarVentas(datos) {
 
         const nuevaVenta = {
             fecha: new Date(fecha),
-            cliente_id: new ObjectId(cliente_id),
             productos: productosProcesados,
             total
         };
